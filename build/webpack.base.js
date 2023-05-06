@@ -21,15 +21,15 @@ module.exports = {
     publicPath: "/", // 打包后文件的公共前缀路径
   },
   resolve: {
-    extensions: [".js", ".ts", ".tsx"], // 引入模块时不带文件后缀 会找到该配置数组里面依次添加后缀查找文件
+    extensions: [".js", ".jsx", ".ts", ".tsx"], // 引入模块时不带文件后缀 会找到该配置数组里面依次添加后缀查找文件
     alias: {
-      "@/*": resolve("./src/*"),
+      "@": resolve("../src"),
     },
   },
   module: {
     rules: [
       {
-        test: /.(ts|tsx)$/, // 匹配 ts，tsx 文件
+        test: /\.(ts|tsx)$/, // 匹配 ts，tsx 文件
         use: "babel-loader",
         // 已经迁移至 babel.config.js
         // use: {
@@ -46,6 +46,18 @@ module.exports = {
         //     ],
         //   },
         // },
+      },
+      {
+        test: /\.css$/,
+        use: ["style-loader", "css-loader", "postcss-loader"],
+      },
+      {
+        test: /\.less$/,
+        use: ["style-loader", "css-loader", "postcss-loader", "less-loader"],
+      },
+      {
+        test: /\.s[ac]ss$/i,
+        use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"],
       },
     ],
   },
