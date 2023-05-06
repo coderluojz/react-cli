@@ -23,6 +23,9 @@ module.exports = {
     clean: true, // 打包自动删除上一次的 dist 文件，webpack5 内置
     publicPath: "/", // 打包后文件的公共前缀路径
   },
+  cache: {
+    type: "filesystem", // 使用文件缓存
+  },
   resolve: {
     extensions: [".js", ".jsx", ".ts", ".tsx"], // 引入模块时不带文件后缀 会找到该配置数组里面依次添加后缀查找文件
     alias: {
@@ -33,22 +36,7 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|tsx)$/, // 匹配 ts，tsx 文件
-        use: "babel-loader",
-        // 已经迁移至 babel.config.js
-        // use: {
-        //   loader: "babel-loader",
-        //   options: {
-        //     presets: [
-        //       [
-        //         "@babel/preset-react",
-        //         {
-        //           runtime: "automatic", // 配置后无需手动引入 React 即可使用 JSX
-        //         },
-        //       ],
-        //       "@babel/preset-typescript",
-        //     ],
-        //   },
-        // },
+        use: ["thread-loader", "babel-loader"],
       },
       {
         test: /\.css$/,

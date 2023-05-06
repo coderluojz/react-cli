@@ -1,7 +1,7 @@
 declare global {
   namespace NodeJS {
     export interface ProcessEnv {
-      NODE_ENV: string
+      NODE_ENV: 'production' | 'development' | 'test'
       BASE_ENV: string
     }
   }
