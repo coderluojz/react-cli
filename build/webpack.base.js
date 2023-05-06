@@ -10,6 +10,9 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const resolve = (dir) => path.resolve(__dirname, dir);
 
+const cssUse = ["style-loader", "css-loader", "postcss-loader"];
+const generatefileName = (name) => `static/${name}/[name][ext]`;
+
 module.exports = {
   // 入口文件
   entry: resolve("../src/index.tsx"),
@@ -49,15 +52,51 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ["style-loader", "css-loader", "postcss-loader"],
+        use: cssUse,
       },
       {
         test: /\.less$/,
-        use: ["style-loader", "css-loader", "postcss-loader", "less-loader"],
+        use: [...cssUse, "less-loader"],
       },
       {
         test: /\.s[ac]ss$/i,
-        use: ["style-loader", "css-loader", "postcss-loader", "sass-loader"],
+        use: [...cssUse, "sass-loader"],
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif|svg)$/,
+        type: "asset", // type 选择 asset
+        generator: {
+          filename: generatefileName("images"), // 文件输出目录和命名
+        },
+        parser: {
+          dataUrlCondition: {
+            maxSize: 10 * 1024, // 小于 10kb 转成 base64 位
+          },
+        },
+      },
+      {
+        test: /\.(woff2?|eot|ttf|otf)$/,
+        type: "asset",
+        generator: {
+          filename: generatefileName("fonts"),
+        },
+        parser: {
+          dataUrlCondition: {
+            maxSize: 10 * 1024, // 小于 10kb 转成 base64 位
+          },
+        },
+      },
+      {
+        test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)$/,
+        type: "asset",
+        generator: {
+          filename: generatefileName("media"),
+        },
+        parser: {
+          dataUrlCondition: {
+            maxSize: 10 * 1024, // 小于 10kb 转成 base64 位
+          },
+        },
       },
     ],
   },
