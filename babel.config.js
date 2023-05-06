@@ -1,3 +1,5 @@
+const isDev = process.env.NODE_ENV === "development"; // 是否是开发模式
+
 module.exports = {
   // 预设执行顺序由右到左，所以先处理 ts，在处理 jsx
   presets: [
@@ -21,5 +23,8 @@ module.exports = {
     ],
     "@babel/preset-typescript",
   ],
-  plugins: [["@babel/plugin-proposal-decorators", { legacy: true }]],
+  plugins: [
+    isDev && require.resolve("react-refresh/babel"), // 如果是开发模式则启动 react 热更新插件
+    ["@babel/plugin-proposal-decorators", { legacy: true }],
+  ].filter(Boolean), // 过滤空值
 };
