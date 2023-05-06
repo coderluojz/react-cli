@@ -5,6 +5,7 @@
  * @Description  : 基础配置
  */
 const path = require("path");
+const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
 const resolve = (dir) => path.resolve(__dirname, dir);
@@ -29,21 +30,22 @@ module.exports = {
     rules: [
       {
         test: /.(ts|tsx)$/, // 匹配 ts，tsx 文件
-        use: {
-          loader: "babel-loader",
-          options: {
-            // 预设执行顺序由右到左，所以先处理 ts，在处理 jsx
-            presets: [
-              [
-                "@babel/preset-react",
-                {
-                  runtime: "automatic", // 配置后无需手动引入 React 即可使用 JSX
-                },
-              ],
-              "@babel/preset-typescript",
-            ],
-          },
-        },
+        use: "babel-loader",
+        // 已经迁移至 babel.config.js
+        // use: {
+        //   loader: "babel-loader",
+        //   options: {
+        //     presets: [
+        //       [
+        //         "@babel/preset-react",
+        //         {
+        //           runtime: "automatic", // 配置后无需手动引入 React 即可使用 JSX
+        //         },
+        //       ],
+        //       "@babel/preset-typescript",
+        //     ],
+        //   },
+        // },
       },
     ],
   },
@@ -51,6 +53,9 @@ module.exports = {
     new HtmlWebpackPlugin({
       template: resolve("../public/index.html"),
       inject: true, // 自动注入静态资源
+    }),
+    new webpack.DefinePlugin({
+      "process.env.BASE_ENV": JSON.stringify(process.env.BASE_ENV),
     }),
   ],
 };

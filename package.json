@@ -6,8 +6,14 @@
   "repository": "https://github.com/coderluojz/react-cli.git",
   "author": "luojz",
   "scripts": {
-    "dev": "webpack-dev-server -c ./build/webpack.dev.js",
-    "build": "webpack -c ./build/webpack.prod.js"
+    "dev": "cross-env NODE_ENV=development BASE_ENV=development webpack-dev-server -c ./build/webpack.dev.js",
+    "dev:test": "cross-env NODE_ENV=development BASE_ENV=test webpack-dev-server -c ./build/webpack.dev.js",
+    "dev:pre": "cross-env NODE_ENV=development BASE_ENV=pre webpack-dev-server -c ./build/webpack.dev.js",
+    "dev:prod": "cross-env NODE_ENV=development BASE_ENV=production webpack-dev-server -c ./build/webpack.dev.js",
+    "build:dev": "cross-env NODE_ENV=production BASE_ENV=development webpack -c ./build/webpack.prod.js",
+    "build:test": "cross-env NODE_ENV=production BASE_ENV=test webpack -c ./build/webpack.prod.js",
+    "build:pre": "cross-env NODE_ENV=production BASE_ENV=pre webpack -c ./build/webpack.prod.js",
+    "build": "cross-env NODE_ENV=production BASE_ENV=production webpack -c ./build/webpack.prod.js"
   },
   "devDependencies": {
     "@babel/core": "^7.21.8",
@@ -16,6 +22,7 @@
     "@types/react": "^18.2.5",
     "@types/react-dom": "^18.2.4",
     "babel-loader": "^9.1.2",
+    "cross-env": "^7.0.3",
     "html-webpack-plugin": "^5.5.1",
     "webpack": "^5.82.0",
     "webpack-cli": "^5.0.2",
