@@ -16,17 +16,12 @@ const generatefileName = (name) => `static/${name}/[name][ext]`;
 module.exports = {
   // 入口文件
   entry: resolve("../src/index.tsx"),
-  // 打包文件出口
-  output: {
-    filename: "static/js/[name].js", // 每个输出 js 的文件名称
-    path: resolve("../dist"), // 打包结果输出文件路径
-    clean: true, // 打包自动删除上一次的 dist 文件，webpack5 内置
-    publicPath: "/", // 打包后文件的公共前缀路径
-  },
   cache: {
     type: "filesystem", // 使用文件缓存
   },
   resolve: {
+    // 如果用的是 pnpm 就暂时不要配置这个，会有幽灵依赖的问题，访问不到很多模块。
+    modules: [resolve("../node_modules")], // 查找第三方模块只在本项目中的 node_modules 中查找
     extensions: [".js", ".jsx", ".ts", ".tsx"], // 引入模块时不带文件后缀 会找到该配置数组里面依次添加后缀查找文件
     alias: {
       "@": resolve("../src"),
@@ -36,6 +31,7 @@ module.exports = {
     rules: [
       {
         test: /\.(ts|tsx)$/, // 匹配 ts，tsx 文件
+        include: [resolve("../src")], // 只对 src 文件下进行 loader 解析
         use: ["thread-loader", "babel-loader"],
       },
       {
