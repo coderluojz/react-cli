@@ -5,9 +5,9 @@
   "main": "index.js",
   "repository": "https://github.com/coderluojz/react-cli.git",
   "author": "luojz",
-  "license": "MIT",
   "scripts": {
-    "dev": "webpack-dev-server -c ./build/webpack.dev.js"
+    "dev": "webpack-dev-server -c ./build/webpack.dev.js",
+    "build": "webpack -c ./build/webpack.prod.js"
   },
   "devDependencies": {
     "@babel/core": "^7.21.8",
