@@ -1,0 +1,19 @@
+{
+  "name": "react-cli",
+  "version": "1.0.0",
+  "description": "基于 Webpack5 + React18 + TypeScript 的开发和打包环境",
+  "main": "index.js",
+  "repository": "https://github.com/coderluojz/react-cli.git",
+  "author": "luojz",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/react": "^18.2.5",
+    "@types/react-dom": "^18.2.4",
+    "webpack": "^5.82.0",
+    "webpack-cli": "^5.0.2"
+  },
+  "dependencies": {
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  }
+}
