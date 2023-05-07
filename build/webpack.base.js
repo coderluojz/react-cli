@@ -46,7 +46,18 @@ module.exports = {
       },
       {
         test: /\.less$/,
-        use: [...cssUse, "less-loader"],
+        use: [
+          ...cssUse,
+          {
+            loader: "less-loader",
+            options: {
+              lessOptions: {
+                // 如果要在less中写类型js的语法，需要加这一个配置
+                javascriptEnabled: true,
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.s[ac]ss$/i,
@@ -89,6 +100,15 @@ module.exports = {
           },
         },
       },
+      {
+        // 匹配json文件
+        test: /\.json$/,
+        type: "asset/resource", // 将json文件视为文件类型
+        generator: {
+          // 这里专门针对json文件的处理
+          filename: generatefileName("json", "contenthash:8"),
+        },
+      },
     ],
   },
   plugins: [
@@ -100,4 +120,5 @@ module.exports = {
       "process.env.BASE_ENV": JSON.stringify(process.env.BASE_ENV),
     }),
   ],
+  stats: "errors-only",
 };
