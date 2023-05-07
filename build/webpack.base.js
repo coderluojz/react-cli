@@ -17,7 +17,7 @@ const cssUse = [
   "css-loader",
   "postcss-loader",
 ];
-const generatefileName = (name) => `static/${name}/[name].[hash][ext]`;
+const generatefileName = (name, hash) => `static/${name}/[name].[${hash}][ext]`;
 
 module.exports = {
   // 入口文件
@@ -56,7 +56,7 @@ module.exports = {
         test: /\.(png|jpg|jpeg|gif|svg)$/,
         type: "asset", // type 选择 asset
         generator: {
-          filename: generatefileName("images"), // 文件输出目录和命名
+          filename: generatefileName("images", "contenthash:8"), // 文件输出目录和命名
         },
         parser: {
           dataUrlCondition: {
@@ -69,7 +69,7 @@ module.exports = {
         // type 为 asset 的请跨下，webpack 将按照默认条件，自动地在 resource 和 inline 之间进行选择：小于 8kb 的文件，将会视为 inline 模块类型，否则会被视为 resource 模块类型。
         type: "asset",
         generator: {
-          filename: generatefileName("fonts"),
+          filename: generatefileName("fonts", "contenthash:8"),
         },
         parser: {
           dataUrlCondition: {
@@ -81,7 +81,7 @@ module.exports = {
         test: /\.(mp4|webm|ogg|mp3|wav|flac|aac)$/,
         type: "asset",
         generator: {
-          filename: generatefileName("media"),
+          filename: generatefileName("media", "contenthash:8"),
         },
         parser: {
           dataUrlCondition: {
