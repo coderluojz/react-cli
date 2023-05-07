@@ -1,11 +1,14 @@
 /*
  * @Author       : luojingzhou
  * @Date         : 2023-05-06 10:40:48
- * @FilePath     : /react-cli/build/webpack.prod.js
+ * @FilePath     : \react-cli\build\webpack.prod.js
  * @Description  : 生产环境
  */
 const path = require("path");
 const { merge } = require("webpack-merge");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
+const TerserPlugin = require("terser-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
 const baseConfig = require("./webpack.base.js");
 
@@ -15,7 +18,7 @@ module.exports = merge(baseConfig, {
   mode: "production", // 生产模式，会开启 tree-shaking 和压缩代码，以及其他优化
   // 打包文件出口
   output: {
-    filename: "static/js/[name].js", // 每个输出 js 的文件名称
+    filename: "static/js/[name].[hash].js", // 每个输出 js 的文件名称
     path: resolve("../dist"), // 打包结果输出文件路径
     clean: true, // 打包自动删除上一次的 dist 文件，webpack5 内置
     publicPath: "/", // 打包后文件的公共前缀路径
@@ -30,5 +33,23 @@ module.exports = merge(baseConfig, {
         },
       ],
     }),
+    // 抽离 css 插件
+    new MiniCssExtractPlugin({
+      filename: "static/css/[name].[hash].css",
+    }),
   ],
+  optimization: {
+    minimizer: [
+      new CssMinimizerPlugin(), // 压缩 css
+      // 压缩 js
+      new TerserPlugin({
+        parallel: true, // 开启多线程压缩
+        terserOptions: {
+          compress: {
+            pure_funcs: ["console.log"], // 删除 console.log
+          },
+        },
+      }),
+    ],
+  },
 });

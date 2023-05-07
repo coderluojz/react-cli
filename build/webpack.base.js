@@ -1,16 +1,22 @@
 /*
  * @Author       : luojingzhou
  * @Date         : 2023-05-06 10:40:48
- * @FilePath     : /react-cli/build/webpack.base.js
+ * @FilePath     : \react-cli\build\webpack.base.js
  * @Description  : 基础配置
  */
 const path = require("path");
 const webpack = require("webpack");
+const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 
+const isDev = process.env.NODE_ENV === "development"; // 是否是开发模式
 const resolve = (dir) => path.resolve(__dirname, dir);
 
-const cssUse = ["style-loader", "css-loader", "postcss-loader"];
+const cssUse = [
+  isDev ? "style-loader" : MiniCssExtractPlugin.loader, // 开发环境使用 style-looader，打包模式抽离 css
+  "css-loader",
+  "postcss-loader",
+];
 const generatefileName = (name) => `static/${name}/[name].[hash][ext]`;
 
 module.exports = {
