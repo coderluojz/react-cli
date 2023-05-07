@@ -11,6 +11,7 @@ const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CssMinimizerPlugin = require("css-minimizer-webpack-plugin");
 const TerserPlugin = require("terser-webpack-plugin");
 const CopyPlugin = require("copy-webpack-plugin");
+const CompressionPlugin = require("compression-webpack-plugin");
 const globAll = require("glob-all");
 const baseConfig = require("./webpack.base.js");
 
@@ -51,10 +52,18 @@ module.exports = merge(baseConfig, {
         standard: [/^ant-/], // 过滤以ant-开头的类名，哪怕没用到也不删除
       },
     }),
+    new CompressionPlugin({
+      test: /.(js|css)$/, // 只生成css, js压缩文件
+      filename: "[path][base].gz", // 文件命名
+      algorithm: "gzip", // 压缩格式,默认是gzip
+      test: /.(js|css)$/, // 只生成css, js压缩文件
+      threshold: 10240, // 只有大小大于该值的资源会被处理。默认值是 10k
+      minRatio: 0.8, // 压缩率,默认值是 0.8
+    }),
   ],
   optimization: {
     minimizer: [
-      // new CssMinimizerPlugin(), // 压缩 css
+      new CssMinimizerPlugin(), // 压缩 css
       // 压缩 js
       new TerserPlugin({
         parallel: true, // 开启多线程压缩
