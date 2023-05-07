@@ -11,7 +11,7 @@ const HtmlWebpackPlugin = require("html-webpack-plugin");
 const resolve = (dir) => path.resolve(__dirname, dir);
 
 const cssUse = ["style-loader", "css-loader", "postcss-loader"];
-const generatefileName = (name) => `static/${name}/[name][ext]`;
+const generatefileName = (name) => `static/${name}/[name].[hash][ext]`;
 
 module.exports = {
   // 入口文件
@@ -60,6 +60,7 @@ module.exports = {
       },
       {
         test: /\.(woff2?|eot|ttf|otf)$/,
+        // type 为 asset 的请跨下，webpack 将按照默认条件，自动地在 resource 和 inline 之间进行选择：小于 8kb 的文件，将会视为 inline 模块类型，否则会被视为 resource 模块类型。
         type: "asset",
         generator: {
           filename: generatefileName("fonts"),

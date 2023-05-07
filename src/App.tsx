@@ -3,6 +3,7 @@ import smallImg from "@/assets/images/5kb.png";
 import "@/assets/styles/app.css";
 import "@/assets/styles/app.less";
 import "@/assets/styles/app.scss";
+import "@/assets/styles/iconfont.css";
 import Class from "@/components/Class";
 import { useState } from "react";
 
@@ -16,6 +17,10 @@ const App = () => {
       <h2>react-cli</h2>
       <h3>scss</h3>
       <Class />
+      <span className="iconfont icon-aixin"></span>
+      <span className="iconfont icon-bianji"></span>
+      <span className="iconfont icon-Dyanjing"></span>
+      <span className="iconfont icon-caidan"></span>
       <img src={smallImg} alt="小于10kb的图片" />
       <img src={bigImg} alt="大于于10kb的图片" />
       <div className="smallImg"></div> {/* 小图片背景容器 */}
